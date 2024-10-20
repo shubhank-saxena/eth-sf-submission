@@ -69,6 +69,7 @@ const Main = () => {
         </div>
         <div className="header-buttons">
           {isLoggedIn && <DynamicWidget />}
+          
         </div>
       </div>
 
