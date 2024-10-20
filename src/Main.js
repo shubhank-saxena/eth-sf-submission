@@ -2,7 +2,7 @@ import { DynamicWidget, useDynamicContext, useIsLoggedIn } from "@dynamic-labs/s
 import { useState, useEffect } from 'react';
 import { Link, Route, Routes } from 'react-router-dom';
 import DynamicMethods from './Methods.js';
-import UserInfo from './components/UserInfo';
+import UserInfo from './components/UserInfo.js';
 import './Main.css';
 
 const checkIsDarkSchemePreferred = () => window?.matchMedia?.('(prefers-color-scheme:dark)')?.matches ?? false;
@@ -11,6 +11,7 @@ const Main = () => {
   const isLoggedIn = useIsLoggedIn();
   const [isDarkMode, setIsDarkMode] = useState(checkIsDarkSchemePreferred);
   const { user, isAuthenticated, setShowAuthFlow } = useDynamicContext();
+  const [showInfluencerData, setShowInfluencerData] = useState(false);
 
   useEffect(() => {
     const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
@@ -20,6 +21,12 @@ const Main = () => {
     return () => darkModeMediaQuery.removeEventListener('change', handleChange);
   }, []);
 
+  const handleProfileClick = () => {
+    if (isLoggedIn && user?.metadata?.['Type of User'] === 'Influencer') {
+      setShowInfluencerData(true);
+    }
+  };
+
   console.log("isAuthenticated:", isAuthenticated);
   console.log("user:", user);
 
@@ -28,7 +35,15 @@ const Main = () => {
       return (
         <div className="menu-options">
           <div className="menu-option">Bounties</div>
-          <Link to="/profile" className="menu-option">Profile</Link>
+
+          <div 
+            className="menu-option" 
+            onClick={handleProfileClick} 
+            style={{ cursor: 'pointer' }}
+          >
+            Profile
+          </div>
+          
         </div>
       );
     } else if (user?.metadata?.['Type of User'] === 'Company') {
@@ -82,10 +97,10 @@ const Main = () => {
             Log in or Sign Up
           </button>
         )}
-        <Routes>
-          <Route path="/profile" element={<UserInfo />} />
-          {/* <Route path="/" element={<DynamicMethods isDarkMode={isDarkMode} />} /> */}
-        </Routes>
+         {/* Conditional rendering for influencer data */}
+        {isLoggedIn && showInfluencerData && (
+          <UserInfo />
+        )}
       </div>
       <div className="footer">
         <div className="footer-text">Made with ❤️ by dynamic</div>

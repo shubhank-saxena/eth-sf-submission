@@ -11,7 +11,6 @@ const UserInfo = () => {
       <p><strong>ID:</strong> {user.id}</p>
       <p><strong>Email:</strong> {user.email}</p>
       <p><strong>Username:</strong> {user.username}</p>
-      <p><strong>Created At:</strong> {new Date(user.createdAt).toLocaleString()}</p>
     </div>
   );
 };
