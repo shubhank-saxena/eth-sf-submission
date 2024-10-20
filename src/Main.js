@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { Link, Route, Routes } from 'react-router-dom';
 import DynamicMethods from './Methods.js';
 import UserInfo from './components/UserInfo.js';
+import YouTubeOAuth from './components/youtubeoauth';
 import './Main.css';
 
 const checkIsDarkSchemePreferred = () => window?.matchMedia?.('(prefers-color-scheme:dark)')?.matches ?? false;
@@ -12,6 +13,7 @@ const Main = () => {
   const [isDarkMode, setIsDarkMode] = useState(checkIsDarkSchemePreferred);
   const { user, isAuthenticated, setShowAuthFlow } = useDynamicContext();
   const [showInfluencerData, setShowInfluencerData] = useState(false);
+  const [showYouTubeOAuth, setShowYouTubeOAuth] = useState(false);
 
   useEffect(() => {
     const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
@@ -24,6 +26,7 @@ const Main = () => {
   const handleProfileClick = () => {
     if (isLoggedIn && user?.metadata?.['Type of User'] === 'Influencer') {
       setShowInfluencerData(true);
+      setShowYouTubeOAuth(true); 
     }
   };
 
@@ -43,7 +46,7 @@ const Main = () => {
           >
             Profile
           </div>
-          
+
         </div>
       );
     } else if (user?.metadata?.['Type of User'] === 'Company') {
@@ -101,6 +104,13 @@ const Main = () => {
         {isLoggedIn && showInfluencerData && (
           <UserInfo />
         )}
+
+        {showYouTubeOAuth && (
+              <div style={{ marginTop: '20px' }}>
+                <YouTubeOAuth />
+              </div>
+            )}
+
       </div>
       <div className="footer">
         <div className="footer-text">Made with ❤️ by dynamic</div>
