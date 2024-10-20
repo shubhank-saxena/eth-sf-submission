@@ -1,6 +1,8 @@
 import { DynamicWidget, useDynamicContext, useIsLoggedIn } from "@dynamic-labs/sdk-react-core";
 import { useState, useEffect } from 'react';
+import { Link, Route, Routes } from 'react-router-dom';
 import DynamicMethods from './Methods.js';
+import UserInfo from './components/UserInfo';
 import './Main.css';
 
 const checkIsDarkSchemePreferred = () => window?.matchMedia?.('(prefers-color-scheme:dark)')?.matches ?? false;
@@ -25,17 +27,18 @@ const Main = () => {
     if (user?.metadata?.['Type of User'] === 'Influencer') {
       return (
         <div className="menu-options">
-          <div className="menu-option">Bouties</div>
-          <div className="menu-option">Profile</div>
-          {/* <div className="menu-option">Contact</div> */}
+          <div className="menu-option">Bounties</div>
+          <Link to="/profile" className="menu-option">Profile</Link>
         </div>
       );
-    } else {
+    } else if (user?.metadata?.['Type of User'] === 'Company') {
       return (
         <div className="menu-options">
           <div className="menu-option">Your Bounties</div>
         </div>
       );
+    } else {
+      return null;
     }
   };
 
@@ -79,7 +82,10 @@ const Main = () => {
             Log in or Sign Up
           </button>
         )}
-        {/* <DynamicMethods isDarkMode={isDarkMode} /> */}
+        <Routes>
+          <Route path="/profile" element={<UserInfo />} />
+          {/* <Route path="/" element={<DynamicMethods isDarkMode={isDarkMode} />} /> */}
+        </Routes>
       </div>
       <div className="footer">
         <div className="footer-text">Made with ❤️ by dynamic</div>

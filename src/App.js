@@ -1,8 +1,9 @@
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { DynamicContextProvider } from "@dynamic-labs/sdk-react-core";
 import { EthereumWalletConnectors } from "@dynamic-labs/ethereum";
 import { ZeroDevSmartWalletConnectors } from "@dynamic-labs/ethereum-aa";
 import Main from "./Main";
-
+import UserInfo from "./components/UserInfo";
 
 const App = () => (
   <DynamicContextProvider
@@ -12,7 +13,12 @@ const App = () => (
       walletConnectors: [EthereumWalletConnectors, ZeroDevSmartWalletConnectors],
     }}
   >
-    <Main />
+    <Router>
+      <Routes>
+        <Route path="/" element={<Main />} />
+        <Route path="/profile" element={<UserInfo />} />
+      </Routes>
+    </Router>
   </DynamicContextProvider>
 );
 

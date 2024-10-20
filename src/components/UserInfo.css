@@ -1,0 +1,21 @@
+.user-info {
+    padding: 20px;
+    border-radius: 12px;
+    background-color: #fff;
+    color: #333;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .user-info.dark {
+    background-color: #1c1c1c;
+    color: #fff;
+  }
+  
+  .user-info h1 {
+    margin-bottom: 20px;
+  }
+  
+  .user-info p {
+    margin: 10px 0;
+  }
